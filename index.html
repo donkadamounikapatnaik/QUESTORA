@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>QUESTORA — Play. Discover. Master. (Classes 1–10)</title>
+  
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="styles/main.css">
+  <link rel="stylesheet" href="styles/game.css">
+  <link rel="stylesheet" href="styles/learning-panel.css">
+</head>
+<body class="theme-class-1-4">
+
+  <!-- ==================================================
+       TOP APPLICATION HEADER & GLOBAL HUD
+  ================================================== -->
+  <header class="app-header">
+    <div class="header-inner">
+      
+      <!-- Brand Logo & Tagline -->
+      <div class="brand-container" id="navLogo">
+        <div class="brand-logo-icon">⚔️</div>
+        <div>
+          <h1 class="brand-title" data-i18n="appName">QUESTORA</h1>
+          <p class="brand-tagline" data-i18n="tagline">Play. Discover. Master.</p>
+        </div>
+      </div>
+
+      <!-- Quick Metrics HUD -->
+      <div class="header-hud">
+        <!-- Student Profile Chip -->
+        <button id="navProfileChip" class="hud-pill" style="cursor: pointer;" title="Student Profile">
+          <span>👤</span>
+          <span id="hudStudentName">Explorer</span>
+        </button>
+
+        <div class="hud-pill">
+          <span>⚡</span>
+          <span id="hudXP">0</span>
+          <span data-i18n="xpLabel">XP</span>
+        </div>
+        <div class="hud-pill">
+          <span>⭐</span>
+          <span id="hudStars">0</span>
+          <span data-i18n="starsLabel">Stars</span>
+        </div>
+        <div class="hud-pill">
+          <span>🔮</span>
+          <span id="hudCrystals">0/3</span>
+          <span data-i18n="crystalsLabel">Crystals</span>
+        </div>
+
+        <!-- Language Switcher -->
+        <div class="lang-selector-group">
+          <button class="lang-selector-btn active-lang" data-lang="en">EN</button>
+          <button class="lang-selector-btn" data-lang="te">తెలుగు</button>
+        </div>
+
+        <!-- Parent & Teacher Mastery Hub -->
+        <button id="navHubBtn" class="action-btn small-btn">
+          📊 <span>Dashboard</span>
+        </button>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- ==================================================
+       SCREEN 0: STUDENT LOGIN PAGE
+  ================================================== -->
+  <section id="loginScreen" class="screen-view">
+    <div class="login-card bounce-in">
+      <div class="text-center mb-6">
+        <div class="welcome-avatar-ring" style="width: 64px; height: 64px; font-size: 2rem; margin-bottom: 0.75rem;">
+          🛡️
+        </div>
+        <h2 class="text-2xl font-black text-slate-800">Student Portal Login</h2>
+        <p class="text-xs text-slate-500 mt-1">
+          Enter your name, age, and email address to start your personalized mathematical adventure.
+        </p>
+      </div>
+
+      <form id="studentLoginForm" novalidate>
+        <!-- 1. Student Name -->
+        <div class="form-group">
+          <label class="form-label" for="loginStudentName">1. Student Full Name</label>
+          <input type="text" id="loginStudentName" class="form-input" placeholder="e.g. Rohan Sharma" required autocomplete="name" />
+          <div class="error-text" id="nameErrorMsg">Please enter your name (at least 2 letters).</div>
+        </div>
+
+        <!-- 2. Student Age -->
+        <div class="form-group">
+          <label class="form-label" for="loginStudentAge">2. Age (5 to 18 Years)</label>
+          <input type="number" id="loginStudentAge" class="form-input" placeholder="e.g. 11" min="5" max="18" required />
+          <div class="error-text" id="ageErrorMsg">Please enter a valid age between 5 and 18.</div>
+        </div>
+
+        <!-- 3. Student Email -->
+        <div class="form-group">
+          <label class="form-label" for="loginStudentEmail">3. Email Address</label>
+          <input type="email" id="loginStudentEmail" class="form-input" placeholder="e.g. rohan.student@example.com" required autocomplete="email" />
+          <div class="error-text" id="emailErrorMsg">Please enter a valid email address (e.g. name@domain.com).</div>
+        </div>
+
+        <!-- Submit Button -->
+        <div class="mt-6">
+          <button type="submit" id="loginSubmitBtn" class="action-btn w-full justify-center">
+            Enter QUESTORA 🚀
+          </button>
+        </div>
+      </form>
+
+      <div class="text-center mt-4 pt-3 border-t border-slate-100">
+        <button id="loginSkipBtn" class="secondary-btn small-btn w-full justify-center text-xs">
+          Explore as Guest (Explorer)
+        </button>
+        <p class="text-[11px] text-slate-400 mt-2">
+          🔒 Saved locally via browser persistence.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================================================
+       SCREEN 0.5: PERSONALIZED WELCOME PAGE
+  ================================================== -->
+  <section id="welcomeScreen" class="screen-view">
+    <div class="welcome-card bounce-in">
+      <div class="welcome-avatar-ring">
+        ✨
+      </div>
+      <h2 class="welcome-title" id="welcomeGreetingTitle">
+        Hi, Explorer! Welcome to QUESTORA!
+      </h2>
+      <p class="welcome-subtitle">
+        Your personalized mathematical journey through <strong>The Lost Crystal Kingdom</strong> is ready. Master concepts through interactive discovery, overcome guardian puzzles, and track your growth.
+      </p>
+
+      <div class="student-badge-pill" id="welcomeStudentBadge">
+        <span>👤</span>
+        <span id="welcomeStudentDetails">Name: Explorer | Age: 10</span>
+      </div>
+
+      <div class="flex flex-col sm:flex-row justify-center gap-3 mt-6">
+        <button id="welcomeResumeBtn" class="action-btn justify-center" style="display:none;">
+          🏰 Continue Adventure
+        </button>
+        <button id="welcomeStartOnboardingBtn" class="action-btn justify-center">
+          Start Learning 🚀
+        </button>
+        <button id="welcomeViewDashboardBtn" class="secondary-btn justify-center">
+          📊 View My Dashboard
+        </button>
+        <button id="welcomeEditProfileBtn" class="secondary-btn justify-center text-xs">
+          ⚙️ Change Learning Preferences
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================================================
+       SCREEN 1: WELCOME HERO SCREEN
+  ================================================== -->
+  <section id="heroScreen" class="screen-view active-screen">
+    <div class="hero-wrapper">
+      <div class="hero-badge" data-i18n="heroBadge">✨ Adaptive Game-Based Learning Platform</div>
+      <h2 class="hero-title" data-i18n="heroTitle">Turn Math Into an Epic Adventure</h2>
+      <p class="hero-subtitle" data-i18n="heroSubtitle">
+        Explore the Lost Crystal Kingdom. Master concepts from Class 1 to 10 with interactive visual models, real playable quests, and personalized learning when you need it most.
+      </p>
+
+      <div class="hero-btn-row">
+        <button id="heroStartBtn" class="action-btn">
+          ⚔️ <span data-i18n="startJourneyBtn">Start Quest</span>
+        </button>
+        <button id="heroResumeBtn" class="secondary-btn" style="display:none;">
+          🏰 <span data-i18n="continueJourneyBtn">Resume Quest</span>
+        </button>
+        <button id="heroExploreBtn" class="secondary-btn">
+          📚 <span data-i18n="exploreTopicsBtn">Explore Curriculum</span>
+        </button>
+        <button id="runTestsBtn" class="secondary-btn">
+          🧪 <span data-i18n="runTestsBtn">Run System Tests</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Feature Pillars -->
+    <div class="grid max-w-4xl mx-auto grid-cols-1 md:grid-cols-3 gap-4 mt-8" style="display:grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1rem; margin-top: 2rem;">
+      <div class="card text-center">
+        <div style="font-size:2rem; margin-bottom:0.5rem;">🎨</div>
+        <h3 class="font-bold text-base mb-1">Age-Adaptive Interface</h3>
+        <p class="text-xs text-muted">Visual fruit counting for Class 1–4, balance scales for Class 7–8, and Cartesian vectors for Class 9–10.</p>
+      </div>
+      <div class="card text-center">
+        <div style="font-size:2rem; margin-bottom:0.5rem;">💡</div>
+        <h3 class="font-bold text-base mb-1">Learn In-Game</h3>
+        <p class="text-xs text-muted">Never get stuck or leave your quest. Manipulate interactive concept models and return ready to conquer.</p>
+      </div>
+      <div class="card text-center">
+        <div style="font-size:2rem; margin-bottom:0.5rem;">📈</div>
+        <h3 class="font-bold text-base mb-1">Evidence-Based Mastery</h3>
+        <p class="text-xs text-muted">Compare pre vs post scores, diagnose specific weak topics, and take targeted retests to earn mastery.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================================================
+       SCREEN 2: STUDENT SETUP & CURRICULUM SELECTION
+  ================================================== -->
+  <section id="setupScreen" class="screen-view">
+    <div class="card max-w-2xl mx-auto space-y-6" style="margin: 0 auto; max-width: 680px;">
+      
+      <div class="border-b pb-3 border-slate-200">
+        <h2 class="text-xl font-black text-slate-800" data-i18n="setupTitle">Begin Your Learning Adventure</h2>
+        <p class="text-xs text-slate-500" data-i18n="setupSubtitle">Customize your grade, board, and topic to enter the realm tailored for you.</p>
+      </div>
+
+      <!-- 1. Class Selection (1 to 10) -->
+      <div>
+        <label class="block text-xs font-bold uppercase tracking-wider mb-2 text-slate-700" data-i18n="classLabel">
+          1. Select Your Class (Class 1 to 10)
+        </label>
+        <div class="class-grid" id="classSelectGrid"></div>
+      </div>
+
+      <!-- 2. Board Selection & NCERT Note -->
+      <div style="margin-top: 1rem;">
+        <label class="block text-xs font-bold uppercase tracking-wider mb-2 text-slate-700" data-i18n="boardLabel">
+          2. School Board / Curriculum
+        </label>
+        <select id="boardSelect" class="form-select">
+          <option value="cbse">CBSE (National Curriculum - Verified)</option>
+          <option value="ncert_aligned">NCERT-Aligned Learning (Textbook & Learning Outcomes - Verified)</option>
+          <option value="ap_scert">Andhra Pradesh State Board (SCERT - Verified)</option>
+          <option value="ts_scert">Telangana State Board (SCERT - Verified)</option>
+          <option value="icse">ICSE (CISCE Board - Verified)</option>
+          <option value="custom_state">Universal State Board / Custom Framework</option>
+        </select>
+        <p class="text-xs text-slate-500 mt-1" style="font-style: italic;" data-i18n="ncertNote">
+          Note: NCERT develops national curriculum textbooks and frameworks. It is not an examining school board.
+        </p>
+      </div>
+
+      <!-- 3. Preferred Learning Language -->
+      <div style="margin-top: 1rem;">
+        <label class="block text-xs font-bold uppercase tracking-wider mb-2 text-slate-700" data-i18n="langLabel">
+          3. Preferred Language
+        </label>
+        <div class="q-count-btn-row">
+          <button type="button" class="q-count-btn active-count setup-lang-btn" data-lang="en">🇬🇧 English</button>
+          <button type="button" class="q-count-btn setup-lang-btn" data-lang="te">🇮🇳 తెలుగు (Telugu)</button>
+        </div>
+      </div>
+
+      <!-- 4. Subject, Chapter & Topic -->
+      <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin-top: 1rem;">
+        <div>
+          <label class="block text-xs font-bold uppercase tracking-wider mb-2 text-slate-700" data-i18n="chapterLabel">
+            4. Chapter
+          </label>
+          <select id="chapterSelect" class="form-select"></select>
+        </div>
+        <div>
+          <label class="block text-xs font-bold uppercase tracking-wider mb-2 text-slate-700" data-i18n="topicLabel">
+            5. Learning Topic
+          </label>
+          <select id="topicSelect" class="form-select"></select>
+        </div>
+      </div>
+
+      <!-- 5. Starting Game Difficulty -->
+      <div style="margin-top: 1rem;">
+        <label class="block text-xs font-bold uppercase tracking-wider mb-1 text-slate-700">
+          6. Starting Game Difficulty
+        </label>
+        <div class="q-count-btn-row" id="setupDiffRow">
+          <button type="button" class="q-count-btn active-count setup-diff-btn" data-diff="1">Level 1: Beginner (Meadow)</button>
+          <button type="button" class="q-count-btn setup-diff-btn" data-diff="2">Level 2: Intermediate (Forest)</button>
+          <button type="button" class="q-count-btn setup-diff-btn" data-diff="3">Level 3: Advanced (Citadel)</button>
+        </div>
+        <p class="text-[11px] text-slate-400 mt-1">Class determines syllabus concepts; difficulty controls puzzle depth.</p>
+      </div>
+
+      <!-- 6. Scored Practice Question Count -->
+      <div style="margin-top: 1rem;">
+        <label class="block text-xs font-bold uppercase tracking-wider mb-1 text-slate-700" data-i18n="questionCountLabel">
+          7. Number of Scored Practice Questions
+        </label>
+        <div class="q-count-btn-row" style="flex-wrap: wrap; gap: 0.5rem; align-items: center;">
+          <button type="button" class="q-count-btn active-count q-count-pick-btn" data-count="5" data-i18n="quickPractice">5 Questions (Quick)</button>
+          <button type="button" class="q-count-btn q-count-pick-btn" data-count="10" data-i18n="standardPractice">10 Questions (Standard)</button>
+          <button type="button" class="q-count-btn q-count-pick-btn" data-count="15" data-i18n="challengePractice">15 Questions (Extended)</button>
+          <div style="display: flex; align-items: center; gap: 0.35rem; margin-left: 0.25rem;">
+            <input type="number" id="customQCountInput" class="form-input" min="3" max="25" placeholder="Custom (3-25)" style="width: 120px; padding: 0.35rem 0.6rem; font-size: 0.8rem;" />
+            <button type="button" id="applyCustomQCountBtn" class="secondary-btn small-btn" style="padding: 0.35rem 0.65rem;">Set</button>
+          </div>
+        </div>
+        <p class="text-[11px] text-slate-400 mt-1">Tutorial and guided practice questions are counted separately.</p>
+      </div>
+
+      <!-- Proceed Button -->
+      <div style="display:flex; justify-content: flex-end; margin-top: 1.5rem; border-top: 1px solid #e2e8f0; padding-top: 1rem;">
+        <button id="setupProceedBtn" class="action-btn">
+          Review Adventure Road 🗺️
+        </button>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ==================================================
+       MODAL: OPTIONAL PRE-ASSESSMENT PROMPT
+  ================================================== -->
+  <div id="preAssessmentModal" class="puzzle-modal-backdrop" style="display:none;">
+    <div class="puzzle-modal-card bounce-in text-center" style="max-width: 480px;">
+      <div style="font-size: 2.5rem; margin-bottom: 0.75rem;">🧭</div>
+      <h3 class="text-xl font-bold mb-2" data-i18n="preAssessmentModalTitle">Check What You Already Know?</h3>
+      <p class="text-xs text-muted mb-6" data-i18n="preAssessmentModalText">
+        Take a short, pressure-free pre-assessment to customize your adventure! You can also skip directly into the Kingdom.
+      </p>
+      <div style="display:flex; flex-direction: column; gap: 0.75rem;">
+        <button id="takePreAssessmentBtn" class="action-btn" style="justify-content: center;" data-i18n="takePreAssessmentBtn">
+          Take Pre-Assessment 📝
+        </button>
+        <button id="skipPreAssessmentBtn" class="secondary-btn" style="justify-content: center;" data-i18n="skipPreAssessmentBtn">
+          Skip & Start Learning ⚔️
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================================================
+       SCREEN 3: ASSESSMENT SCREEN (PRE / POST / RETEST)
+  ================================================== -->
+  <section id="assessmentScreen" class="screen-view">
+    <div id="assessmentContainer"></div>
+  </section>
+
+  <!-- ==================================================
+       SCREEN 3.5: PERSONALIZED LEARNING PATH SCREEN
+  ================================================== -->
+  <section id="learningPathScreen" class="screen-view">
+    <div class="card max-w-3xl mx-auto space-y-6" style="margin: 0 auto; max-width: 720px;">
+      
+      <div class="text-center border-b pb-4 border-slate-200">
+        <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">🗺️</div>
+        <h2 class="text-2xl font-black text-slate-800">Your Personalized Learning Path</h2>
+        <p class="text-xs text-slate-500 mt-1">
+          Based on your curriculum selection and baseline check, your kingdom adventure road is mapped below:
+        </p>
+      </div>
+
+      <!-- Baseline Diagnostic Status Card -->
+      <div id="learningPathBaselineCard" class="p-4 rounded-xl bg-sky-50 border border-sky-200">
+        <div class="flex items-center justify-between">
+          <div class="font-bold text-sm text-sky-900" id="pathBaselineTitle">Baseline Readiness: Verified</div>
+          <span class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-sky-200 text-sky-800" id="pathBaselineScoreBadge">4/5 (80%)</span>
+        </div>
+        <p class="text-xs text-slate-600 mt-2" id="pathBaselineSummary">
+          You demonstrated foundational understanding. Next, you will apply concepts through interactive manipulation and multi-step puzzles in the Kingdom.
+        </p>
+      </div>
+
+      <!-- 3-Stage Adventure Roadmap -->
+      <div class="space-y-3">
+        <h3 class="text-xs font-bold uppercase tracking-wider text-slate-500">3-Stage Adventure Journey</h3>
+        
+        <div class="p-3 rounded-xl border border-slate-200 bg-white flex items-center gap-3">
+          <div class="w-10 h-10 rounded-xl bg-emerald-100 flex items-center justify-center text-xl">🌱</div>
+          <div class="flex-1">
+            <div class="text-sm font-bold text-slate-800">Stage 1: Crystal Meadow (Beginner)</div>
+            <div class="text-xs text-slate-500" id="pathStage1Desc">Visual concrete representations, crystal gate puzzle, and discovery shard attunement.</div>
+          </div>
+          <span class="text-xs font-bold text-emerald-600 bg-emerald-50 px-2 py-1 rounded">Discovery</span>
+        </div>
+
+        <div class="p-3 rounded-xl border border-slate-200 bg-white flex items-center gap-3">
+          <div class="w-10 h-10 rounded-xl bg-sky-100 flex items-center justify-center text-xl">🌲</div>
+          <div class="flex-1">
+            <div class="text-sm font-bold text-slate-800">Stage 2: The Enchanted Forest (Intermediate)</div>
+            <div class="text-xs text-slate-500" id="pathStage2Desc">Runic gate challenges, interactive number line bridge chasm, and harmonic fraction resonator.</div>
+          </div>
+          <span class="text-xs font-bold text-sky-600 bg-sky-50 px-2 py-1 rounded">Harmony</span>
+        </div>
+
+        <div class="p-3 rounded-xl border border-slate-200 bg-white flex items-center gap-3">
+          <div class="w-10 h-10 rounded-xl bg-amber-100 flex items-center justify-center text-xl">🏰</div>
+          <div class="flex-1">
+            <div class="text-sm font-bold text-slate-800">Stage 3: The Crystal Citadel (Advanced)</div>
+            <div class="text-xs text-slate-500" id="pathStage3Desc">Multi-step arcanum chest, variable balance, and Citadel Guardian of Infinity boss encounter.</div>
+          </div>
+          <span class="text-xs font-bold text-amber-600 bg-amber-50 px-2 py-1 rounded">Mastery</span>
+        </div>
+      </div>
+
+      <!-- Action Row -->
+      <div class="flex justify-between items-center pt-4 border-t border-slate-200">
+        <button id="pathChangePrefsBtn" class="secondary-btn small-btn">
+          ⚙️ Change Preferences
+        </button>
+        <button id="pathEnterKingdomBtn" class="action-btn">
+          Enter Lost Crystal Kingdom ⚔️
+        </button>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ==================================================
+       SCREEN 4: PLAYABLE ADVENTURE: THE LOST CRYSTAL KINGDOM
+  ================================================== -->
+  <section id="gameScreen" class="screen-view">
+    <div class="game-viewport-card">
+      
+      <!-- In-Game Top Bar -->
+      <div class="game-top-bar">
+        <div style="display:flex; align-items: center; gap: 0.75rem;">
+          <span class="level-indicator-badge" id="hudLevelName">Level 1: Crystal Meadow (Beginner)</span>
+          <span class="text-xs text-slate-500 font-bold" id="activeMethodologyTag">Visual Discovery</span>
+        </div>
+        <div>
+          <button id="triggerPostAssessmentBtn" class="secondary-btn small-btn">
+            🎓 Take Post-Assessment
+          </button>
+        </div>
+      </div>
+
+      <!-- Canvas World Container -->
+      <div class="canvas-wrapper">
+        <canvas id="gameCanvas" width="840" height="480"></canvas>
+
+        <!-- Level Complete Banner -->
+        <div id="levelCompleteBanner" class="level-complete-banner">
+          <div class="banner-crystal-icon">🔮</div>
+          <h3 class="text-2xl font-black mb-2">Level Complete! Crystal Recovered!</h3>
+          <p class="text-sm text-slate-300 mb-6">You've unlocked the ancient secret and restored magical harmony to this realm!</p>
+          <button id="nextLevelBtn" class="action-btn">
+            Advance to Next Level 🚀
+          </button>
+        </div>
+      </div>
+
+      <!-- Controls & Help Row -->
+      <div class="game-controls-help">
+        <span data-i18n="keysHelp">WASD / Arrow Keys or Tap map to move. On mobile, use D-pad below.</span>
+        <span class="font-bold text-slate-600">Encounter gates, chests & number bridges along the path!</span>
+      </div>
+
+      <!-- Mobile Virtual D-Pad -->
+      <div class="mobile-dpad-container">
+        <div class="dpad-cross">
+          <button id="dpadUp" class="dpad-btn">▲</button>
+          <button id="dpadLeft" class="dpad-btn">◀</button>
+          <button id="dpadRight" class="dpad-btn">▶</button>
+          <button id="dpadDown" class="dpad-btn">▼</button>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ==================================================
+       SCREEN 5: RESULTS & WEAK TOPIC RECOMMENDATIONS
+  ================================================== -->
+  <section id="resultsScreen" class="screen-view">
+    <div id="resultsContainer"></div>
+  </section>
+
+  <!-- ==================================================
+       MODAL: FINAL KINGDOM RESTORATION & VICTORY SCENE
+  ================================================== -->
+  <div id="victoryModal" class="puzzle-modal-backdrop" style="display:none;">
+    <div class="puzzle-modal-card bounce-in text-center" style="max-width: 520px;">
+      <div style="font-size: 3.5rem; margin-bottom: 0.5rem;">👑</div>
+      <h2 class="text-2xl font-black text-slate-900 mb-2">The Kingdom is Saved!</h2>
+      <p class="text-sm text-slate-600 mb-6">
+        All 3 Sacred Crystals (Discovery, Harmony, and Mastery) have been restored to the Citadel Spire! The Kingdom's mathematical shields shine with radiant brilliance.
+      </p>
+      <div class="p-4 rounded-xl bg-amber-50 border border-amber-200 mb-6">
+        <div class="text-xs uppercase font-bold text-amber-800">Honorary Explorer Title</div>
+        <div class="text-lg font-black text-amber-900">Grand Alchemist of the Crystal Realm</div>
+      </div>
+      <button id="victoryPostAssessBtn" class="action-btn" style="width: 100%; justify-content: center;">
+        Verify Mastery with Post-Assessment 📜
+      </button>
+    </div>
+  </div>
+
+  <!-- ==================================================
+       IN-GAME PUZZLE MODAL (GATES, CHESTS, BRIDGES, GUARDIAN)
+  ================================================== -->
+  <div id="gamePuzzleModal" style="display:none;"></div>
+
+  <!-- ==================================================
+       IN-GAME LEARNING PANEL DRAWER (LEARN WITHOUT LEAVING)
+  ================================================== -->
+  <aside id="inGameLearningPanel" class="learning-panel-drawer">
+    
+    <!-- Header -->
+    <div class="learning-panel-header">
+      <span class="panel-super-badge" data-i18n="learningPanelTitle">Interactive Concept Laboratory</span>
+      <h3 class="panel-concept-title" id="learningPanelConceptTitle">Concept Breakdown</h3>
+      <p class="panel-concept-sub" id="learningPanelConceptSummary">Hands-on visual understanding before returning to the quest</p>
+    </div>
+
+    <!-- Body -->
+    <div class="learning-panel-body">
+      <!-- Step 1 & 2: Interactive Visual Model Container -->
+      <div id="learningVisualModelContainer"></div>
+
+      <!-- Step 3: Guided Practice Container -->
+      <div id="learningGuidedPracticeContainer"></div>
+    </div>
+
+    <!-- Sticky Footer Return Button -->
+    <div class="learning-panel-footer">
+      <button id="returnToQuestBtn" class="action-btn" style="width: 100%; justify-content: center;">
+        Return to Quest & Solve Original Gate ⚔️
+      </button>
+    </div>
+
+  </aside>
+
+  <!-- ==================================================
+       SCRIPTS ARCHITECTURE (STRICT LOADING ORDER)
+  ================================================== -->
+  <script src="data/curriculum.js"></script>
+  <script src="data/translations.js"></script>
+  <script src="data/questions.js"></script>
+  
+  <script src="js/QuestionGenerator.js"></script>
+  <script src="js/ProgressManager.js"></script>
+  <script src="js/CurriculumManager.js"></script>
+  <script src="js/LanguageManager.js"></script>
+  
+  <script src="js/ConceptResolver.js"></script>
+  <script src="js/VisualModelRenderer.js"></script>
+  <script src="js/GuidedPracticeEngine.js"></script>
+  <script src="js/LearningPanel.js"></script>
+  
+  <script src="js/PlayerController.js"></script>
+  <script src="js/PuzzleEngine.js"></script>
+  <script src="js/GameEngine.js"></script>
+  
+  <script src="js/AssessmentEngine.js"></script>
+  <script src="js/PerformanceAnalytics.js"></script>
+  <script src="js/AdaptiveLearningEngine.js"></script>
+  
+  <script src="tests/acceptance_tests.js"></script>
+  <script src="js/AppController.js"></script>
+
+</body>
+</html>
